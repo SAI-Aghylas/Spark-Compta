@@ -10,7 +10,12 @@ class Csvreader(spark: SparkSession) {
       .option("inferSchema", "true")
       .csv(path)
   }
-
+  def showcsv(csv_file: DataFrame): Unit ={
+    csv_file.show()
+  }
+  def storeColumn(csv_file: DataFrame):List[String] ={
+    csv_file.columns.toList
+  }
 }
 object Csvreader{
   def apply(spark: SparkSession): Csvreader = new Csvreader(spark)
