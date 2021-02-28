@@ -10,4 +10,9 @@ class Csvreader(spark: SparkSession) {
       .option("inferSchema", "true")
       .csv(path)
   }
+
+}
+object Csvreader{
+  def apply(spark: SparkSession): Csvreader = new Csvreader(spark)
+
 }
