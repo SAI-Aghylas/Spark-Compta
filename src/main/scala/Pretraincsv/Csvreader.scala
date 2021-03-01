@@ -32,6 +32,13 @@ class Csvreader(spark: SparkSession) {
   def storeColumn(csv_file: DataFrame):List[String] ={
     csv_file.columns.toList
   }
+  def storeCsv(csv_file: DataFrame,path:String) :Unit ={
+    csv_file.write
+      .option("header","true")
+      .mode("overwrite")
+      .option("sep",";")
+      .csv(path)
+  }
 
 }
 object Csvreader{

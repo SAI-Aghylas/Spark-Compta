@@ -9,7 +9,9 @@ import Pretraincsv.Csvreader
 
 object pretraitementCsv {
 
-  val PATH_TO_FILE="./src/main/Data-files/lettrage et ecriture comptable.csv"
+  val PATH_TO_FILE="./src/main/Data-files/"
+  val ORIGINAL_FILE="lettrage et ecriture comptable.csv"
+  val FINAL_FILE="Lettrage_Compta.csv"
 
   def main(args: Array[String]): Unit = {
     implicit val spark=SparkSession.builder()
@@ -17,7 +19,7 @@ object pretraitementCsv {
                           .master("local[2]")
                           .getOrCreate()
     val csvreader=Csvreader(spark)
-    val csvFile= csvreader.readcsv(PATH_TO_FILE)
+    val csvFile= csvreader.readcsv(PATH_TO_FILE+ORIGINAL_FILE)
 
     def replace_empty(ColIn: Column, ReplaceVal: Any): Column = {
      return( when(ColIn.isNull,lit(ReplaceVal)).otherwise(ColIn) )
@@ -47,6 +49,7 @@ object pretraitementCsv {
 
     csvNewColumns.printSchema()
     csvNewColumns.show(50)
+    csvreader.storeCsv(csvNewColumns,PATH_TO_FILE+FINAL_FILE)
     //    val tst=csvFilled
     //    tst.groupBy(col("ID_ECRITURE")).count().distinct().show()
 
