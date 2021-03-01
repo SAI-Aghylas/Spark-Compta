@@ -32,6 +32,7 @@ class Csvreader(spark: SparkSession) {
   def storeColumn(csv_file: DataFrame):List[String] ={
     csv_file.columns.toList
   }
+
 }
 object Csvreader{
   def apply(spark: SparkSession): Csvreader = new Csvreader(spark)

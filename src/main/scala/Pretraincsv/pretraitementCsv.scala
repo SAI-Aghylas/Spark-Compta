@@ -40,10 +40,19 @@ object pretraitementCsv {
       .withColumn("HICTSA",regexp_replace(col("HICTSA")," ","X"))
 
 
+    //Creating new Columns:
+    val csvNewColumns=csvFilled
+        .withColumn("TYPE_COMPTE",substring(col("COMPTE_COMPTABLE"),1,3))
+        .withColumn("ID_ECRITURE",monotonically_increasing_id())
 
-    csvFilled
-      .withColumn("TYPE_COMPTE",substring(col("COMPTE_COMPTABLE"),1,3))
-  //  csvFilled.groupBy("HICTSA").agg(length(col("HICTSA"))).distinct().show()
+    csvNewColumns.printSchema()
+    csvNewColumns.show(50)
+    //    val tst=csvFilled
+    //    tst.groupBy(col("ID_ECRITURE")).count().distinct().show()
+
+
+
+    //  csvFilled.groupBy("HICTSA").agg(length(col("HICTSA"))).distinct().show()
 //    val tst =csvFilled.withColumn("PIECE_COMPTABLE_FILLED",replace_empty(col("PIECE_COMPTABLE"),"X"))
 
 //      tst.groupBy("PIECE_COMPTABLE").agg(col("PIECE_COMPTABLE"),length(col("PIECE_COMPTABLE"))).distinct().sort("PIECE_COMPTABLE").show(100)
